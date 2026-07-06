@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/sudanese-community-school-al-ajami/',
+    base: '/El-Jaliaa/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
