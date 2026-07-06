@@ -1,0 +1,6 @@
+{
+  "name": "Sudanese Community School Al-Ajami",
+  "description": "An elegant, disciplined, and community-focused school for the Sudanese community in Al-Ajami, fostering academic excellence and rich cultural heritage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
