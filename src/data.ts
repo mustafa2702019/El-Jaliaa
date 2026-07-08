@@ -14,15 +14,6 @@ export const DEPARTMENTS: Department[] = [
     focusAr: 'التركيز على التطور الاجتماعي والعاطفي، المهارات الحركية، صوتيات اللغة الأساسية، تحفيظ القرآن، واللعب الابتكاري.',
     subjects: ['English Phonics', 'Arabic Letters', 'Islamic Stories & Ethos', 'Creative Arts', 'Elementary Mathematics', 'Physical Coordination'],
     subjectsAr: ['صوتيات اللغة الإنجليزية', 'الحروف الأبجدية والخط العربي', 'القصص والآداب الإسلامية', 'الفنون والتلوين الابتكاري', 'مبادئ الرياضيات المبسطة', 'التناسق والتربية البدنية'],
-    headTeacher: {
-      name: 'Ustazah Fatima Osman',
-      nameAr: 'الأستاذة فاطمة عثمان',
-      role: 'Head of Kindergarten',
-      roleAr: 'مشرفة مرحلة رياض الأطفال',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400',
-      quote: 'We focus on creating a warm, family-like environment where child curiosity is celebrated and core values are naturally integrated.',
-      quoteAr: 'نركز كامل طاقتنا على إنشاء بيئة تربوية دافئة ومحفزة تشبه ترابط الأسرة، حيث نحتفي بفضول الأطفال ونغرس القيم الفاضلة بشكل طبيعي ومحبب.'
-    }
   },
   {
     id: 'primary',
@@ -37,15 +28,6 @@ export const DEPARTMENTS: Department[] = [
     focusAr: 'التأسيس المتين لمهارات القراءة والكتابة واللغويات، المهارات الرياضية والحسابية الصارمة، والتفكير العلمي وبناء الشخصية المتوازنة.',
     subjects: ['Arabic Language & Literature', 'Mathematics', 'General Science', 'Islamic / Christian Religious Studies', 'English Language (Special Pathway)', 'Social Studies (History & Geography)'],
     subjectsAr: ['اللغة العربية وآدابها', 'الرياضيات المنهجية', 'العلوم العامة والبيئة', 'التربية الدينية (الإسلامية / المسيحية)', 'اللغة الإنجليزية (المسار المتقدم)', 'الدراسات الاجتماعية (التاريخ والجغرافيا)'],
-    headTeacher: {
-      name: 'Mr. Mohamed Al-Hadi',
-      nameAr: 'الأستاذ محمد الهادي',
-      role: 'Head of Primary Education',
-      roleAr: 'مدير المرحلة الابتدائية',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400',
-      quote: 'Primary school is where the discipline of study meets the curiosity of childhood. We build learners who are respectful, focused, and cooperative.',
-      quoteAr: 'المرحلة الابتدائية هي المحطة الفاصلة حيث يلتقي الانضباط الدراسي بفضول الطفولة. نحن نعمل على إعداد وتأسيس طلاب محترمين، متعاونين، ومحبين للتعلم.'
-    }
   },
   {
     id: 'middle',
@@ -60,15 +42,7 @@ export const DEPARTMENTS: Department[] = [
     focusAr: 'الانتقال المنهجي من الحفظ والتلقين إلى التفكير النقدي والتحليلي، إجراء التجارب المخبرية العملية، وبناء المبادئ القيادية والأخلاقية.',
     subjects: ['Arabic Syntax & Composition', 'Advanced Mathematics', 'Physics & Chemistry (Bilingual)', 'Biology', 'English Literature', 'Arab & African History', 'Geography & Environmental Science', 'Information Technology'],
     subjectsAr: ['النحو والصرف والتعبير العربي', 'الرياضيات المتقدمة', 'الفيزياء والكيمياء (ثنائية اللغة)', 'علم الأحياء والوراثة', 'الأدب الإنجليزي وتعبيراته', 'التاريخ العربي والأفريقي القديم', 'الجغرافيا والعلوم البيئية', 'تكنولوجيا المعلومات والحوسبة'],
-    headTeacher: {
-      name: 'Dr. Tariq Al-Bashir',
-      nameAr: 'الدكتور طارق البشير',
-      role: 'Director of Middle School',
-      roleAr: 'موجه ومسؤول المرحلة المتوسطة',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
-      quote: 'We guide students during their most transformative years. Discipline is not about rules, but about cultivating self-respect and community responsibility.',
-      quoteAr: 'نوجه طلابنا ونرعاهم خلال أكثر سنوات نموهم تحولاً وأهمية. الانضباط لدينا ليس مجرد فرض قوانين جامدة، بل هو غرس احترام الذات والمسؤولية المجتمعية.'
-    }
+   
   },
   {
     id: 'high',
@@ -83,15 +57,7 @@ export const DEPARTMENTS: Department[] = [
     focusAr: 'التحضير والتأهيل الأكاديمي الصارم لامتحانات الشهادة الثانوية والقبول الجامعي، القيادة الإيجابية، البحث العلمي المستقل، والخدمة المجتمعية.',
     subjects: ['Pure & Applied Mathematics', 'Advanced Physics', 'Advanced Chemistry', 'English Language & IELTS Prep', 'Arabic Classical Literature', 'French Language', 'Civic Education & Leadership', 'Computer Science & Coding'],
     subjectsAr: ['الرياضيات البحتة والتطبيقية', 'الفيزياء المتقدمة والكهربية', 'الكيمياء العضوية والتحليلية', 'اللغة الإنجليزية والتحضير لـ IELTS', 'الأدب العربي البليغ والبلاغة', 'اللغة الفرنسية الكلاسيكية', 'التربية الوطنية وتنمية القيادة', 'علوم الحاسوب وهندسة البرمجيات'],
-    headTeacher: {
-      name: 'Professor Amna Al-Mahi',
-      nameAr: 'البروفيسور آمنة الماحي',
-      role: 'Principal & High School Coordinator',
-      roleAr: 'مديرة المدرسة ومنسقة المرحلة الثانوية',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400',
-      quote: 'Our high school graduates consistently score in the top percentiles nationwide. We instil a sense of high integrity and global leadership in each student.',
-      quoteAr: 'يحقق خريجو المرحلة الثانوية لدينا باستمرار أعلى الدرجات والترتيب على المستوى القومي. نحن نحرص على غرس قيم النزاهة العالية والتطلع للقيادة العالمية في وجدان كل طالب وطالبة.'
-    }
+   
   }
 ];
 
