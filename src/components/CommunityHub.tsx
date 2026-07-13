@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { INITIAL_ANNOUNCEMENTS, TEACHERS } from '../data';
-import { Announcement, Booking } from '../types';
-import { Megaphone, CalendarRange, Sparkles, Search, Filter, X, Check } from 'lucide-react';
+import { INITIAL_ANNOUNCEMENTS } from '../data';
+import { Announcement } from '../types';
+import { Megaphone, Sparkles, Search, Filter, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function CommunityHub() {
@@ -12,18 +12,6 @@ export default function CommunityHub() {
   const [filter, setFilter] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
   const [selectedNews, setSelectedNews] = useState<Announcement | null>(null);
-
-  // Booking Scheduler States
-  const [selectedTeacherId, setSelectedTeacherId] = useState<string>(TEACHERS[0].id);
-  const [parentName, setParentName] = useState<string>('');
-  const [studentName, setStudentName] = useState<string>('');
-  const [timeSlot, setTimeSlot] = useState<string>('');
-  const [topic, setTopic] = useState<string>('');
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [successBooking, setSuccessBooking] = useState<boolean>(false);
-
-  // Get active teacher details
-  const activeTeacher = TEACHERS.find(t => t.id === selectedTeacherId) || TEACHERS[0];
 
   // Filter & Search Announcements
   const filteredAnnouncements = INITIAL_ANNOUNCEMENTS.filter(news => {
@@ -37,37 +25,6 @@ export default function CommunityHub() {
                           (news.tagsAr && news.tagsAr.some(tag => tag.toLowerCase().includes(search.toLowerCase())));
     return matchesCategory && matchesSearch;
   });
-
-  // Handle Meeting Booking
-  const handleBookingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!parentName || !studentName || !timeSlot || !topic) return;
-
-    const newBooking: Booking = {
-      id: 'b_' + Date.now(),
-      parentName,
-      studentName,
-      teacherId: selectedTeacherId,
-      teacherName: isRtl ? activeTeacher.nameAr || activeTeacher.name : activeTeacher.name,
-      timeSlot,
-      topic,
-      status: 'Confirmed',
-      date: new Date().toLocaleDateString()
-    };
-
-    setBookings(prev => [newBooking, ...prev]);
-    setSuccessBooking(true);
-    
-    // Reset individual fields
-    setParentName('');
-    setStudentName('');
-    setTopic('');
-    setTimeSlot('');
-
-    setTimeout(() => {
-      setSuccessBooking(false);
-    }, 4000);
-  };
 
   const clubs = [
     { 
@@ -131,8 +88,8 @@ export default function CommunityHub() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 text-right-dir">
           
-          {/* Dynamic Bulletin Board (Left 7 Columns) */}
-          <div className="lg:col-span-7 flex flex-col">
+          {/* Dynamic Bulletin Board (Full Width) */}
+          <div className="lg:col-span-12 flex flex-col">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b border-sleek-border justify-between flex-wrap gap-y-4 flex-row-dir">
               <div className="flex items-center gap-2.5 flex-row-dir">
                 <div className="w-10 h-10 bg-amber-50 text-amber-700 rounded-full flex items-center justify-center shrink-0">
@@ -171,12 +128,12 @@ export default function CommunityHub() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={isRtl ? 'ابحث في الأخبار والفعاليات والعلامات...' : 'Search news, tags, or announcements...'}
-                className={`w-full bg-sleek-sand hover:bg-stone-100/50 border border-sleek-border rounded-full ${isRtl ? 'pr-11 pl-4' : 'pl-11 pr-4'} py-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#1A365D]/15 transition-all text-right-dir`}
+                className={`w-full bg-sleek-sand hover:bg-stone-100/50 border border-sleek-border rounded-full ${isRtl ? 'pr-11 pl-4' : 'pl-11 pr-4'} py-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sleek-blue/20 transition-all text-right-dir`}
               />
             </div>
 
             {/* Bulletins Feed */}
-            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 pl-2 scrollbar-thin">
+            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 pl-2 scrollbar-thin">
               {filteredAnnouncements.length > 0 ? (
                 filteredAnnouncements.map((news) => {
                   const isUrgent = news.category === 'Urgent';
@@ -231,180 +188,6 @@ export default function CommunityHub() {
               )}
             </div>
           </div>
-
-          {/* Interactive Consultation Scheduler (Right 5 Columns) */}
-          <div className="lg:col-span-5 bg-sleek-sand border border-sleek-border p-6 sm:p-8 rounded-[32px] flex flex-col justify-between h-full text-right-dir">
-            <div>
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-sleek-border flex-row-dir justify-start">
-                <div className="w-10 h-10 bg-sleek-blue/5 text-sleek-blue rounded-full flex items-center justify-center">
-                  <CalendarRange className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-sleek-blue leading-tight">{t('community.schedulerTitle')}</h3>
-                  <p className="text-[10px] text-stone-400 font-mono font-bold uppercase tracking-wider block mt-0.5">
-                    {t('community.schedulerSubtitle')}
-                  </p>
-                </div>
-              </div>
-
-              <form onSubmit={handleBookingSubmit} className="space-y-4">
-                {/* Select Teacher */}
-                <div>
-                  <label className="block text-stone-600 text-[10px] font-bold uppercase tracking-wider mb-2">
-                    {t('community.selectFaculty')}
-                  </label>
-                  <select
-                    value={selectedTeacherId}
-                    onChange={(e) => {
-                      setSelectedTeacherId(e.target.value);
-                      setTimeSlot(''); // Reset slot on change
-                    }}
-                    className="w-full bg-white border border-sleek-border rounded-2xl px-4 py-2.5 text-stone-800 text-xs sm:text-sm font-semibold focus:outline-none cursor-pointer text-right-dir"
-                  >
-                    {TEACHERS.map(t => (
-                      <option key={t.id} value={t.id}>
-                        {isRtl ? t.nameAr || t.name : t.name} ({isRtl ? t.roleAr || t.role : t.role})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Parent Name */}
-                <div>
-                  <label className="block text-stone-600 text-[10px] font-bold uppercase tracking-wider mb-2">
-                    {t('community.parentNameField')}
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder={isRtl ? 'مثال: ندى أحمد بكري' : 'e.g. Nada Ahmed Bakri'}
-                    value={parentName}
-                    onChange={(e) => setParentName(e.target.value)}
-                    className="w-full bg-white border border-sleek-border rounded-2xl px-4 py-2.5 text-stone-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#1A365D]/15 transition-all text-right-dir"
-                  />
-                </div>
-
-                {/* Student Name */}
-                <div>
-                  <label className="block text-stone-600 text-[10px] font-bold uppercase tracking-wider mb-2">
-                    {t('community.studentNameField')}
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder={isRtl ? 'مثال: مازن أحمد يوسف' : 'e.g. Mazin Ahmed Yousif'}
-                    value={studentName}
-                    onChange={(e) => setStudentName(e.target.value)}
-                    className="w-full bg-white border border-sleek-border rounded-2xl px-4 py-2.5 text-stone-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#1A365D]/15 transition-all text-right-dir"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Meeting Time Slot */}
-                  <div>
-                    <label className="block text-stone-600 text-[10px] font-bold uppercase tracking-wider mb-2">
-                      {t('community.timeSlotField')}
-                    </label>
-                    <select
-                      required
-                      value={timeSlot}
-                      onChange={(e) => setTimeSlot(e.target.value)}
-                      className="w-full bg-white border border-sleek-border rounded-2xl px-3 py-2.5 text-stone-800 text-xs font-semibold focus:outline-none cursor-pointer text-right-dir"
-                    >
-                      <option value="">{isRtl ? 'اختر موعداً' : 'Choose slot'}</option>
-                      {(isRtl ? activeTeacher.availableTimesAr || activeTeacher.availableTimes : activeTeacher.availableTimes).map((slot, idx) => (
-                        <option key={idx} value={slot}>{slot}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Topic focus */}
-                  <div>
-                    <label className="block text-stone-600 text-[10px] font-bold uppercase tracking-wider mb-2">
-                      {t('community.meetingTopic')}
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder={isRtl ? 'مثال: مستوى الرياضيات والتقدم' : 'e.g. Academic score update'}
-                      value={topic}
-                      onChange={(e) => setTopic(e.target.value)}
-                      className="w-full bg-white border border-sleek-border rounded-2xl px-3 py-2.5 text-stone-800 text-xs focus:outline-none focus:ring-2 focus:ring-[#1A365D]/15 transition-all text-right-dir"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  id="book-pt-btn"
-                  type="submit"
-                  disabled={!parentName || !studentName || !timeSlot || !topic}
-                  className={`w-full py-3 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer flex-row-dir ${
-                    parentName && studentName && timeSlot && topic
-                      ? 'bg-sleek-blue text-white shadow-md hover:shadow-lg hover:bg-opacity-95'
-                      : 'bg-stone-200 text-stone-400 pointer-events-none'
-                  }`}
-                >
-                  <Check className="w-4 h-4" />
-                  <span>{t('community.bookBtn')}</span>
-                </button>
-              </form>
-            </div>
-
-            {/* Notification alert / History list */}
-            <div className="mt-6 border-t border-sleek-border pt-5 min-h-[90px] flex flex-col justify-center text-right-dir">
-              <AnimatePresence mode="wait">
-                {successBooking ? (
-                  <motion.div
-                    key="success-booking"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="p-3 bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-2xl flex items-center gap-3 text-xs font-semibold flex-row-dir text-right-dir"
-                  >
-                    <div className="p-1 bg-emerald-500 text-white rounded-full">
-                      <Check className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <p className="font-bold">{isRtl ? 'تم تأمين وتأكيد الحجز بنجاح!' : 'Consultation Secured!'}</p>
-                      <p className="text-[10px] text-emerald-600/90 font-mono mt-0.5">
-                        {isRtl ? 'تم إرسال إشعار فوري وتأكيد إلى هاتفك والبريد الإلكتروني.' : 'Notification dispatch sent to SMS & Parent Email.'}
-                      </p>
-                    </div>
-                  </motion.div>
-                ) : bookings.length > 0 ? (
-                  <motion.div
-                    key="booking-list"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="space-y-2"
-                  >
-                    <span className="text-[10px] text-stone-400 font-mono font-bold uppercase tracking-wider block mb-1">
-                      {isRtl ? `الجلسات المؤكدة اليوم (${bookings.length})` : `Booked slots today (${bookings.length})`}
-                    </span>
-                    <div className="max-h-[80px] overflow-y-auto space-y-1.5 scrollbar-none">
-                      {bookings.slice(0, 2).map((b) => (
-                        <div key={b.id} className="flex justify-between items-center text-[10px] bg-white border border-sleek-border px-3 py-2 rounded-xl flex-row-dir text-right-dir">
-                          <div className="truncate pr-2 pl-2">
-                            <span className="font-bold text-stone-850">{b.parentName}</span>
-                            <span className="text-stone-400"> {isRtl ? 'مع' : 'with'} </span>
-                            <span className="font-bold text-sleek-blue">{b.teacherName}</span>
-                          </div>
-                          <span className="font-mono text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded text-[9px] shrink-0 font-bold ltr-dir">
-                            {b.timeSlot}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                ) : (
-                  <p className="text-center text-stone-400 text-xs italic">
-                    {isRtl ? 'لا توجد مواعيد محجوزة في هذه الجلسة حالياً. جرب حجز موعد محاكاة!' : 'No consultations booked yet in this session. Feel free to schedule a mock chat!'}
-                  </p>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-
         </div>
 
         {/* Extracurricular Clubs Subsection */}
@@ -424,7 +207,7 @@ export default function CommunityHub() {
             {clubs.map((club, idx) => (
               <div
                 key={idx}
-                className="bg-sleek-sand border border-sleek-border rounded-3xl p-5 hover:bg-white hover:border-amber-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between text-right-dir"
+                className="bg-sleek-sand border border-sleek-border rounded-3xl p-5 hover:bg-white hover:border-amber-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <span className={`text-amber-700 font-bold text-xs block font-mono ${isRtl ? 'text-left' : 'text-right'}`}>
@@ -463,7 +246,7 @@ export default function CommunityHub() {
               <button
                 type="button"
                 onClick={() => setSelectedNews(null)}
-                className={`absolute top-6 ${isRtl ? 'left-6' : 'right-6'} p-2 bg-sleek-sand hover:bg-stone-100 border border-sleek-border rounded-full text-stone-500 hover:text-stone-900 cursor-pointer transition-colors`}
+                className={`absolute top-6 ${isRtl ? 'left-6' : 'right-6'} p-2 bg-sleek-sand hover:bg-stone-100 border border-sleek-border rounded-full text-stone-500 hover:text-stone-900 cursor-pointer transition-all`}
               >
                 <X className="w-4 h-4" />
               </button>
